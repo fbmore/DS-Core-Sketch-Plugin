@@ -1,5 +1,5 @@
-# DS Pro
-
+## DS Pro
+# Batch create Typography, Color Scales and Components really fast.
 - Generate Color Scales & Variables
 - Generate Color Scales
 - Create Color Variables
