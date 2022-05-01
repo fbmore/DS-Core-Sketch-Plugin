@@ -8,3 +8,11 @@
 - Create Text & Layer Styles
 - Create Symbols
 - Generate Component States
+
+Created by: 
+Francesco Bertocci 
+@fbmore
+
+and Matteo Gratton 
+@icona79
+
