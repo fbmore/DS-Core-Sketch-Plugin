@@ -14,7 +14,7 @@
 				</ul>
 				]]>
 			</description>
-			<enclosure url="https://github.com/fbmore/DS-Pro-Sketch-Plugin/archive/master.zip" sparkle:version="1.0" />
+			<enclosure url="https://github.com/fbmore/DS-Pro-Sketch-Plugin/blob/main/DS%20Pro.sketchplugin.zip" sparkle:version="1.0" />
 		</item>
 	</channel>
 </rss>
