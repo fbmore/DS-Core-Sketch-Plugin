@@ -4,7 +4,8 @@
   "version": "1.0",
   "author": "Francesco Bertocci & Matteo Gratton",
   "authorEmail": "fbmore@gmail.com",
-  "homepage": "",
+  "appcast" : "https://raw.githubusercontent.com/fbmore/DS-Pro-Sketch-Plugin/master/appcast.xml",
+  "homepage": "https://github.com/fbmore/DS-Pro-Sketch-Plugin/",
   "commands": [
     {
     "script": "create-color-scale.js",
