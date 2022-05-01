@@ -1,7 +1,7 @@
 {
   "name": "DS Pro",
   "description": "Batch create Typography, Color Scales and Components really fast.",
-  "version": "1.1",
+  "version": "1.1.1",
   "author": "Francesco Bertocci & Matteo Gratton",
   "authorEmail": "fbmore@gmail.com",
   "appcast" : "https://raw.githubusercontent.com/fbmore/DS-Pro-Sketch-Plugin/main/appcast.xml",
