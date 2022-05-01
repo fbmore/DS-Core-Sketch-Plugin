@@ -13,10 +13,11 @@ var onRun = function(context) {
 
     var document = sketch.getSelectedDocument();
 
-    if (document.selectedLayers.length == 0 || document.selectedLayers.length > 1) {
+    if (document.selectedLayers.length == 0 || document.selectedLayers.length > 1 || document.selectedLayers.layers[0].type !== "Text") {
         ui.message("🌈: Please select a Text layer to use as your base font reference. 😅");
     } else {
         var selection = document.selectedLayers.layers[0];
+        console.log(selection);
         var currentPage = selection.getParentPage();
         var currentArtboard = selection.getParentArtboard();
 
