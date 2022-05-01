@@ -1,5 +1,9 @@
 ![](/Images/DS-Pro-Sketch-Plugin.png)
 # DS Pro
+
+## [Download plugin here](https://github.com/fbmore/DS-Pro-Sketch-Plugin/raw/main/DS%20Pro.sketchplugin.zip)
+
+
 ### Batch create Typography, Color Scales and Components really fast:
 - Generate Color Scales & Variables
 - Generate Color Scales
