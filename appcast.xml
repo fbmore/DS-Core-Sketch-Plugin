@@ -1,20 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">
-	<channel>
-		<title>DS Pro</title>
-		<link>http://sparkle-project.org/files/sparkletestcast.xml</link>
-		<description>Batch create Typography, Color Scales and Components really fast.</description>
-		<language>en</language>
-		<item>
-			<title>Version 1.0</title>
-			<description>
-				<![CDATA[
-				<ul>
-				<li>Initial release</li>
-				</ul>
-				]]>
-			</description>
-			<enclosure url="https://github.com/fbmore/DS-Pro-Sketch-Plugin/blob/main/DS%20Pro.sketchplugin.zip" sparkle:version="1.0" />
-		</item>
-	</channel>
+  <channel>
+    <title>DS Pro</title>
+    <link>https://raw.githubusercontent.com/fbmore/DS-Pro-Sketch-Plugin/main/appcast.xml</link>
+    <description>Batch create Typography, Color Scales and Components really fast.</description>
+    <language>en</language>
+    <item>
+      <title>Version 1.0</title>
+      <description>
+        <![CDATA[
+        <ul>
+          <li>Initial release</li>
+        </ul>
+        ]]>
+      </description>
+      <enclosure url="https://github.com/fbmore/DS-Pro-Sketch-Plugin/raw/main/DS%20Pro.sketchplugin.zip" sparkle:version="1.0" type="application/octet-stream"/>
+    </item>
+  </channel>
 </rss>
