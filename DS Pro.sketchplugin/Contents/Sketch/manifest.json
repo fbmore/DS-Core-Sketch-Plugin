@@ -1,66 +1,70 @@
 {
-  "name": "DS Pro",
-  "description": "Batch create Typography, Color Scales and Components really fast.",
-  "version": "1.2",
-  "author": "Francesco Bertocci & Matteo Gratton",
-  "authorEmail": "fbmore@gmail.com",
-  "appcast" : "https://raw.githubusercontent.com/fbmore/DS-Pro-Sketch-Plugin/main/appcast.xml",
-  "homepage": "https://github.com/fbmore/DS-Pro-Sketch-Plugin/",
-  "commands": [
-    {
-    "script": "create-color-scale.js",
-    "name": "Generate Color Scales",
-    "identifier": "color-scales",
-    "shortcut": "ctrl shift cmd c"
-  },
-  {
-    "script": "create-color-variables.js",
-    "name": "Create Color Variables",
-    "identifier": "color-variables",
-    "shortcut": "ctrl shift cmd v"
-  },
-  {
-    "script": "create-all.js",
-    "name": "Generate Color Scales & Variables",
-    "identifier": "color-all",
-    "shortcut": "ctrl shift cmd a"
-  },
-  {
-    "name": "Create Text & Layer Styles",
-    "identifier": "Create-Styles",
-    "script": "create-styles.js"
-  },
-  {
-    "name": "Generate Component States",
-    "identifier": "Create-States",
-    "script": "create-states.js"
-  },
-  {
-    "name": "Generate Typography Scale",
-    "identifier": "Create-Typography-Scale",
-    "script": "create-typography-scale.js"
-  },
-  {
-    "name": "Create Symbols",
-    "identifier": "Create-Symbols",
-    "script": "create-symbols.js"
-  }
-],
-"menu": {
-  "title": "DS Pro",
-  "items":
-  [
-    "color-all",
-    "color-scales",
-    "color-variables",
-    "-",
-    "Create-Typography-Scale",
-    "Create-Styles",
-    "Create-Symbols",
-    "Create-States"
-  ],
-  "isRoot": false
-},
-"identifier": "com.fbmore.ds-pro",
-"icon": "icon.png"
+    "name": "DS Pro",
+    "description": "Batch create Typography, Color Scales and Components really fast.",
+    "version": "1.2",
+    "author": "Francesco Bertocci & Matteo Gratton",
+    "authorEmail": "fbmore@gmail.com",
+    "appcast": "https://raw.githubusercontent.com/fbmore/DS-Pro-Sketch-Plugin/main/appcast.xml",
+    "homepage": "https://github.com/fbmore/DS-Pro-Sketch-Plugin/",
+    "commands": [{
+            "script": "create-color-scale.js",
+            "name": "Generate Color Scales",
+            "identifier": "color-scales",
+            "shortcut": "ctrl shift cmd c"
+        },
+        {
+            "script": "create-color-variables.js",
+            "name": "Create Color Variables",
+            "identifier": "color-variables",
+            "shortcut": "ctrl shift cmd v"
+        },
+        {
+            "script": "create-all.js",
+            "name": "Generate Color Scales & Variables",
+            "identifier": "color-all",
+            "shortcut": "ctrl shift cmd a"
+        },
+        {
+            "name": "Create Text & Layer Styles",
+            "identifier": "Create-Styles",
+            "script": "create-styles.js"
+        },
+        {
+            "name": "Generate Component States",
+            "identifier": "Create-States",
+            "script": "create-states.js"
+        },
+        {
+            "name": "Generate Typography Scale",
+            "identifier": "Create-Typography-Scale",
+            "script": "create-typography-scale.js"
+        },
+        {
+            "name": "Create Symbols",
+            "identifier": "Create-Symbols",
+            "script": "create-symbols.js"
+        },
+        {
+            "name": "UI Test",
+            "identifier": "test-ui",
+            "script": "ui.js"
+        }
+    ],
+    "menu": {
+        "title": "🧙‍♀️ Design Systems Pro",
+        "items": [
+            "color-all",
+            "color-scales",
+            "color-variables",
+            "-",
+            "Create-Typography-Scale",
+            "Create-Styles",
+            "Create-Symbols",
+            "Create-States",
+            "test-ui"
+        ],
+        "isRoot": false
+    },
+    "identifier": "com.fbmore.ds-pro",
+    "icon": "icon.png"
 }

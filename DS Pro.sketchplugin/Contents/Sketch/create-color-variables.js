@@ -1,3 +1,5 @@
+@import "functions.js";
+
 var onRun = function(context) {
     var sketch = require("sketch");
 
@@ -75,40 +77,3 @@ var onRun = function(context) {
         sketch.UI.message("🌈: Yay! You now have " + documentColors.length + " Colors Available! 👏 🚀");
     }
 };
-
-function nameList(array = []) {
-    if (array.length > 0) {
-        let checkArray = [];
-        for (i = 0; i < array.length; i++) {
-            let name = array[i];
-            let options = [" 50", " 100", " 200", " 300", " 400", " 500", " 600", " 700", " 800", " 900"];
-
-            // Automatically remove the scale values generated with the create color scale script
-            for (j = 0; j < options.length; j++) {
-                let currentScaleValue = options[j];
-                if (isExactMatch(name, currentScaleValue)) {
-                    name = name.replace(currentScaleValue, "");
-                }
-            }
-            // Add names to the folder list
-            if (checkArray.length > 0) {
-                if (!checkArray.includes(name)) {
-                    checkArray.push(name);
-                }
-            } else {
-                checkArray.push(name);
-            }
-        }
-        return checkArray;
-    } else {
-        return array;
-    }
-}
-
-function escapeRegExpMatch(s) {
-    return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
-}
-
-function isExactMatch(str, match) {
-    return new RegExp(`\\b${escapeRegExpMatch(match)}\\b`).test(str);
-}
