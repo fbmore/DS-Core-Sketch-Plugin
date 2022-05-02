@@ -13,6 +13,19 @@ var onRun = function(context) {
 
     var document = sketch.getSelectedDocument();
 
+    // Text Styles Management
+    var textStyles = document.sharedTextStyles;
+    var arrayTextStyleIDs = textStyles.map((sharedstyle) => sharedstyle["id"]);
+    var arrayTextStyleNames = textStyles.map((sharedstyle) => sharedstyle["name"]);
+    var arrayTextStyleStyles = textStyles.map(
+        (sharedstyle) => sharedstyle["style"]
+    );
+    var textStylesOrdered = [...document.sharedTextStyles].sort(
+        (left, right) => left.name > right.name
+    );
+    var textString = JSON.stringify(textStylesOrdered);
+
+
     if (document.selectedLayers.length == 0 || document.selectedLayers.length > 1 || document.selectedLayers.layers[0].type !== "Text") {
         ui.message("🌈: Please select a Text layer to use as your base font reference. 😅");
     } else {
@@ -28,6 +41,7 @@ var onRun = function(context) {
             currentArtboard = createArtboard(currentPage, selectionX, selectionY, selection.frame.width, selection.frame.height, "Typography");
         }
 
+        // Text management
         var baseFontSize = selection.style.fontSize;
         var baseTextColor = selection.style.textColor;
         var baseLineHeight = selection.style.lineHeight || selection.style.fontSize + 4;
@@ -38,6 +52,7 @@ var onRun = function(context) {
         var layerStyles = document.sharedLayerStyles;
         var textStyles = document.sharedTextStyles;
 
+        // Default margins 
         var margin = 24;
         var moveby = 0;
         // var lineHeightMultiplier = 1.5;
@@ -99,6 +114,7 @@ var onRun = function(context) {
             "Golden Ratio",
         ];
 
+        // Plugin interactive window
         ui.getInputFromUser(
             "Choose a Typography Scale", {
                 description: instructionalTextForInput,
@@ -114,6 +130,7 @@ var onRun = function(context) {
                 }
             }
         );
+
 
         if (result) {
             var scaleFactor = result;
@@ -200,8 +217,8 @@ var onRun = function(context) {
                         // Create the Text Layer
                         let newText = createTextNoStyle(
                             alignmentGroup,
-                            styleName,
                             layerName,
+                            styleName,
                             0,
                             newFrameY,
                             colorName,
@@ -222,6 +239,8 @@ var onRun = function(context) {
                             swatchContainer = document.sketchObject.documentData().sharedSwatches();
                             swatchContainer.updateReferencesToSwatch(currentSwatch.sketchObject);
                         }
+
+                        createNewTextStyle(newText, layerName, true, false);
                     }
                     newArtboardWidth += margin + alignmentGroup.frame.width;
                     newArtboardHeight = margin + alignmentGroup.frame.height;
@@ -324,6 +343,68 @@ var onRun = function(context) {
             } catch (textNoStyleErr) {
                 console.log(textNoStyleErr);
             }
+        }
+
+        function createNewTextStyle(item, styleName, apply = false, variants = false) {
+            // let document = sketch.getSelectedDocument();
+            try {
+                if (arrayTextStyleNames.indexOf(styleName) === -1) {
+                    let sharedStyle = textStyles.push({
+                        name: styleName,
+                        style: item.style,
+                        document: document,
+                    });
+                    updateTextStyles();
+                    if (apply === true) {
+                        let newTextStyleID = getTextStyleIDFromName(styleName);
+                        let localIndex = arrayTextStyleIDs.indexOf(newTextStyleID);
+                        item.sharedStyleId = newTextStyleID;
+                        item.style = textStyles[localIndex].style;
+                    }
+                    if (variants === true && states.length > 0) {
+                        styleName = styleName.replace(states[0], "");
+                        for (let vIndex = 1; vIndex < states.length; vIndex++) {
+                            styleName =
+                                styleName.replace(states[vIndex - 1], "") +
+                                states[vIndex];
+                            sharedStyle = textStyles.push({
+                                name: styleName,
+                                style: item.style,
+                                document: document,
+                            });
+                        }
+                    }
+                    // return sharedStyle;
+                } else {
+                    if (apply === true) {
+                        let newTextStyleID = getTextStyleIDFromName(styleName);
+                        let localIndex = arrayTextStyleIDs.indexOf(newTextStyleID);
+                        item.sharedStyleId = newTextStyleID;
+                        item.style = textStyles[localIndex].style;
+                    }
+                }
+            } catch (createTextStyleErr) {
+                console.log(createTextStyleErr);
+            }
+        }
+
+        function updateTextStyles() {
+            let textStyles = document.sharedTextStyles;
+            arrayTextStyleIDs = textStyles.map((sharedstyle) => sharedstyle["id"]);
+            arrayTextStyleNames = textStyles.map((sharedstyle) => sharedstyle["name"]);
+            arrayTextStyleStyles = textStyles.map(
+                (sharedstyle) => sharedstyle["style"]
+            );
+        }
+
+        function getTextStyleIDFromName(name) {
+            let styleID = "";
+            for (let i = 0; i < arrayTextStyleIDs.length; i++) {
+                if (arrayTextStyleNames[i] === name) {
+                    styleID = arrayTextStyleIDs[i];
+                }
+            }
+            return styleID;
         }
     }
 };
