@@ -30,7 +30,6 @@ var onRun = function(context) {
         ui.message("🌈: Please select a Text layer to use as your base font reference. 😅");
     } else {
         var selection = document.selectedLayers.layers[0];
-        console.log(selection);
         var currentPage = selection.getParentPage();
         var currentArtboard = selection.getParentArtboard();
 
@@ -89,14 +88,12 @@ var onRun = function(context) {
 
         let typographyScaleVariations = [
             "1.067",
-            "1.25",
             "1.125",
             "1.2",
             "1.25",
             "1.333",
             "1.414",
             "1.5",
-            "1.6",
             "1.618",
             "1.667",
             "1.778",
@@ -131,52 +128,47 @@ var onRun = function(context) {
             }
         );
 
-
         if (result) {
             var scaleFactor = result;
 
-            /// EDIT Array to change nomenclacture. Second to last is name for "Body"
-            var StylesArray = ["Headline 1", "Headline 2", "Headline 3", "Headline 4", "Headline 5", "paragraph", "small"];
-
-            // var StylesArraySizes = ["48","40","32","24","20","18","12"]
+            // Styles management
+            // Array oranization:
+            // 0 = Folder Name
+            // 1 = Style Name
+            // 2 = Default font size (no multiplier in use)
+            // 3 = Scale factor multiplier
+            var StylesArray = [
+                ["Headline 1", "H1", false, 5],
+                ["Headline 2", "H2", false, 4],
+                ["Headline 3", "H3", false, 3],
+                ["Headline 4", "H4", false, 2],
+                ["Headline 5", "H5", false, 1],
+                ["Paragraph", "Paragraph", true, 1],
+                ["Small", "Small", false, 0.75],
+                ["Label", "Label", true, 1]
+            ];
             var StylesArraySizes = [];
 
-            var prevFontSize = baseFontSize * 0.8;
-
             for (s = 0; s < StylesArray.length; ++s) {
-                if (s === 0) {
-                    // StylesArraySizes.push(Math.round(prevFontSize));
-                    StylesArraySizes.push(roundAndEvenNumber(prevFontSize));
-                }
-                if (s === 1) {
-                    StylesArraySizes.push(baseFontSize);
+                let scaleMuliplier = StylesArray[s][3]
+                let StyleArraySizeValue = 0
+                    // Default size
+                if (StylesArray[s][2] === true) {
+                    StylesArraySizes.push(baseFontSize)
                 } else {
-                    if (s !== 0) {
-                        StylesArraySizes.push(roundAndEvenNumber(Math.pow(scaleFactor, s) * baseFontSize));
+                    if (scaleMuliplier >= 1) {
+                        StyleArraySizeValue = Math.round(baseFontSize * Math.pow(scaleFactor, StylesArray[s][3]));
+                    } else {
+                        StyleArraySizeValue = Math.round(baseFontSize / Math.pow(scaleFactor, StylesArray[s][3]));
                     }
+                    StylesArraySizes.push(StyleArraySizeValue);
                 }
             }
 
-            StylesArraySizes.reverse();
-
             var StylesArrayAlignments = ["left", "center", "right"];
-
-            var moveby = StylesArraySizes[0];
 
             var GeneratedStylesArray = [];
 
-            var create = function create(document, layer, styleName) {
-                var sharedStyle = sketch["default"].SharedStyle.fromStyle({
-                    //name: layer.name,
-                    name: styleName,
-                    style: layer.style,
-                    document: document,
-                });
-            };
-
-            // var StylesArrayColors = arrayColorNamesAndValues;
-
-            var scaleSectionHeight = 1000 * scaleFactor;
             // Generate Typography and Styles from selected text layers and docuemnt colors
             let typographyStyleGroups = [];
             let textsGroupWidth = 0;
@@ -187,17 +179,21 @@ var onRun = function(context) {
 
             for (c = 0; c < documentColors.length; ++c) {
                 for (a = 0; a < StylesArrayAlignments.length; ++a) {
-                    let alignmentGroup = createGroup(currentArtboard, [], "Texts Align " + StylesArrayAlignments[a]);
+                    let newAlign = StylesArrayAlignments[a];
+                    let alignmentGroup = createGroup(currentArtboard, [], "Texts Align " + newAlign);
                     typographyStyleGroups.push(alignmentGroup);
                     textsGroupWidth = 0;
                     textGroupHeight = 0;
                     for (s = 0; s < StylesArray.length; ++s) {
-                        let styleName = StylesArray[s] + " - " + StylesArrayAlignments[a];
-                        let layerName = StylesArray[s] + "/" + StylesArray[s] + " - " + StylesArrayAlignments[a];
+                        let newFolder = StylesArray[s][0];
+                        let newName = StylesArray[s][1];
+                        let styleName = newFolder + " - " + newAlign;
+                        let layerName = newFolder + "/" + newName + " - " + newAlign;
                         // var duplicatedLayer = selection.duplicate();
                         let newFontFamily = selection.style.fontFamily;
+
                         let newFontSize = StylesArraySizes[s];
-                        let newTextAlign = StylesArrayAlignments[a];
+                        let newTextAlign = newAlign;
 
                         let newLineHeight = Math.round(newFontSize * lineHeightMultiplier);
 
@@ -240,6 +236,7 @@ var onRun = function(context) {
                             swatchContainer.updateReferencesToSwatch(currentSwatch.sketchObject);
                         }
 
+                        // Create (if needed) and Apply text styles
                         createNewTextStyle(newText, layerName, true, false);
                     }
                     newArtboardWidth += margin + alignmentGroup.frame.width;
