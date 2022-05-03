@@ -2,6 +2,7 @@
 
 var onRun = function(context) {
     var sketch = require("sketch");
+    var ui = require("sketch/ui");
     var sketchversion = sketch.version.sketch;
 
     var Group = require("sketch/dom").Group;
@@ -115,10 +116,10 @@ var onRun = function(context) {
         ];
 
         // Plugin interactive window
-        sketch.UI.getInputFromUser(
+        ui.getInputFromUser(
             "Choose a Typography Scale", {
                 description: instructionalTextForInput,
-                type: sketch.UI.INPUT_TYPE.selection,
+                type: ui.INPUT_TYPE.selection,
                 possibleValues: labels,
             },
             (err, value) => {
@@ -154,7 +155,7 @@ var onRun = function(context) {
             ];
             var StylesArraySizes = [];
 
-            for (s = 0; s < StylesArray.length; ++s) {
+            for (s = 0; s < StylesArray.length; s++) {
                 let scaleMuliplier = StylesArray[s][3]
                 let StyleArraySizeValue = 0
                     // Default size
@@ -182,74 +183,73 @@ var onRun = function(context) {
             let newArtboardHeight = 0;
             margin = Math.round(margin * 2 * scaleFactor);
 
-            for (c = 0; c < documentColors.length; ++c) {
-                for (a = 0; a < StylesArrayAlignments.length; ++a) {
-                    let newAlign = StylesArrayAlignments[a];
-                    let alignmentGroup = createGroup(currentArtboard, [], "Texts Align " + newAlign);
-                    typographyStyleGroups.push(alignmentGroup);
-                    textsGroupWidth = 0;
-                    textGroupHeight = 0;
-                    for (s = 0; s < StylesArray.length; ++s) {
-                        let newFolder = StylesArray[s][0];
-                        let newName = StylesArray[s][1];
-                        let styleName = newFolder + " - " + newAlign;
-                        let layerName = newFolder + "/" + newName + " - " + newAlign;
-                        // var duplicatedLayer = selection.duplicate();
-                        let newFontFamily = selection.style.fontFamily;
+            for (a = 0; a < StylesArrayAlignments.length; ++a) {
+                let newAlign = StylesArrayAlignments[a];
+                let alignmentGroup = createGroup(currentArtboard, [], "Texts Align " + newAlign);
+                typographyStyleGroups.push(alignmentGroup);
+                textsGroupWidth = 0;
+                textGroupHeight = 0;
+                for (s = 0; s < StylesArray.length; ++s) {
+                    let newFolder = StylesArray[s][0];
+                    let newName = StylesArray[s][1];
+                    let styleName = newFolder + " - " + newAlign;
+                    let layerName = newFolder + "/" + newName + " - " + newAlign;
+                    // var duplicatedLayer = selection.duplicate();
+                    let newFontFamily = selection.style.fontFamily;
 
-                        let newFontSize = StylesArraySizes[s];
-                        let newTextAlign = newAlign;
+                    let newFontSize = StylesArraySizes[s];
+                    let newTextAlign = newAlign;
 
-                        let newLineHeight = Math.round(newFontSize * lineHeightMultiplier);
+                    let newLineHeight = Math.round(newFontSize * lineHeightMultiplier);
 
-                        let colorName = selection.style.textColor;
+                    let colorName = selection.style.textColor;
 
-                        if (documentColors.length > 0) {
-                            colorName = documentColors[c].name || documentColors[c].color;
-                        }
-
-                        let newFrameY = 0;
-
-                        if (s > 0) {
-                            newFrameY += textGroupHeight + margin * s; // * Math.round(scaleFactor / 100) * 100;
-                        }
-                        textGroupHeight += newLineHeight;
-
-                        // Create the Text Layer
-                        let newText = createTextNoStyle(
-                            alignmentGroup,
-                            layerName,
-                            styleName,
-                            0,
-                            newFrameY,
-                            colorName,
-                            newTextAlign,
-                            newFontFamily,
-                            newFontSize,
-                            newLineHeight
-                        );
-                        // Se the Color Variable
-                        if (sketchversion >= 69) {
-                            var currentSwatch = newSwatch;
-                            let swatchContainer = document.sketchObject.documentData().sharedSwatches();
-                            currentSwatch.sketchObject.updateWithColor(MSColor.colorWithHex_alpha(color.slice(1, 6), 1));
-                            var myColor = currentSwatch.referencingColor;
-
-                            newText.style.textColor = myColor;
-                            // /// Update all the layers using the Swatches/Color Vars
-                            swatchContainer = document.sketchObject.documentData().sharedSwatches();
-                            swatchContainer.updateReferencesToSwatch(currentSwatch.sketchObject);
-                        }
-
-                        // Create (if needed) and Apply text styles
-                        createNewTextStyle(newText, layerName, true, false);
+                    if (documentColors.length > 0) {
+                        colorName = documentColors[c].name || documentColors[c].color;
                     }
-                    newArtboardWidth += margin + alignmentGroup.frame.width;
-                    newArtboardHeight = margin + alignmentGroup.frame.height;
+
+                    let newFrameY = 0;
+
+                    if (s > 0) {
+                        newFrameY += textGroupHeight + margin * s; // * Math.round(scaleFactor / 100) * 100;
+                    }
+                    textGroupHeight += newLineHeight;
+
+                    // Create the Text Layer
+                    let newText = createTextNoStyle(
+                        alignmentGroup,
+                        layerName,
+                        styleName,
+                        0,
+                        newFrameY,
+                        colorName,
+                        newTextAlign,
+                        newFontFamily,
+                        newFontSize,
+                        newLineHeight
+                    );
+                    // Se the Color Variable
+                    if (sketchversion >= 69) {
+                        var currentSwatch = newSwatch;
+                        let swatchContainer = document.sketchObject.documentData().sharedSwatches();
+                        currentSwatch.sketchObject.updateWithColor(MSColor.colorWithHex_alpha(color.slice(1, 6), 1));
+                        var myColor = currentSwatch.referencingColor;
+
+                        newText.style.textColor = myColor;
+                        // /// Update all the layers using the Swatches/Color Vars
+                        swatchContainer = document.sketchObject.documentData().sharedSwatches();
+                        swatchContainer.updateReferencesToSwatch(currentSwatch.sketchObject);
+                    }
+
+                    // Create (if needed) and Apply text styles
+                    createNewTextStyle(newText, layerName, true, false);
                 }
-                newArtboardWidth += margin;
-                newArtboardHeight += margin;
+                newArtboardWidth += margin + alignmentGroup.frame.width;
+                newArtboardHeight = margin + alignmentGroup.frame.height;
             }
+            newArtboardWidth += margin;
+            newArtboardHeight += margin;
+
             currentArtboard.frame.width = newArtboardWidth;
             currentArtboard.frame.height = newArtboardHeight;
 
@@ -275,9 +275,9 @@ var onRun = function(context) {
 
             selection.remove();
 
-            sketch.UI.message("🌈: Yay! Done generating typography scale with " + GeneratedStylesArray.length + " Text layers! 👏 🚀");
+            ui.message("🌈: Yay! Done generating typography scale with " + GeneratedStylesArray.length + " Text layers! 👏 🚀");
         } else {
-            sketch.UI.message("🌈: See you next when you are ready. 😀");
+            ui.message("🌈: See you next when you are ready. 😀");
         }
 
         function createArtboard(parentLayer, x, y, width, height, name) {

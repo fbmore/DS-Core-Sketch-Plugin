@@ -9,14 +9,12 @@
     "commands": [{
             "script": "create-color-scale.js",
             "name": "Generate Color Scales",
-            "identifier": "color-scales",
-            "shortcut": "ctrl shift cmd c"
+            "identifier": "color-scales"
         },
         {
             "script": "create-color-variables.js",
             "name": "Create Color Variables",
-            "identifier": "color-variables",
-            "shortcut": "ctrl shift cmd v"
+            "identifier": "color-variables"
         },
         {
             "script": "create-all.js",
@@ -27,7 +25,8 @@
         {
             "name": "Create Text & Layer Styles",
             "identifier": "Create-Styles",
-            "script": "create-styles.js"
+            "script": "create-styles.js",
+            "shortcut": "ctrl shift cmd t"
         },
         {
             "name": "Generate Component States",
@@ -45,9 +44,9 @@
             "script": "create-symbols.js"
         },
         {
-            "name": "UI Test",
-            "identifier": "test-ui",
-            "script": "ui.js"
+            "name": "Create Booleans",
+            "identifier": "Create-Boolean",
+            "script": "generate-shape-groups.js"
         }
     ],
     "menu": {
@@ -60,8 +59,7 @@
             "Create-Typography-Scale",
             "Create-Styles",
             "Create-Symbols",
-            "Create-States",
-            "test-ui"
+            "Create-States"
         ],
         "isRoot": false
     },

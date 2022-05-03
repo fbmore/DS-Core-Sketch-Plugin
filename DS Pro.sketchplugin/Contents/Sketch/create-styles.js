@@ -39,7 +39,7 @@ var onRun = function(context) {
                 document: document,
             });
         } else {
-            console.log("already existing");
+            // console.log("already existing");
         }
     };
 
@@ -80,8 +80,6 @@ var onRun = function(context) {
         if (layer.type === "Shape") {
             var styles = document.sharedLayerStyles;
         }
-
-        console.log(styles.length);
 
         /// map all styles IDs
         var arrayStyleIDs = styles.map((sharedstyle) => sharedstyle["id"]);
