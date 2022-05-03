@@ -2,7 +2,6 @@
 
 var onRun = function(context) {
     var sketch = require("sketch");
-    var ui = require("sketch/ui");
     var sketchversion = sketch.version.sketch;
 
     var Group = require("sketch/dom").Group;
@@ -25,9 +24,8 @@ var onRun = function(context) {
     );
     var textString = JSON.stringify(textStylesOrdered);
 
-
     if (document.selectedLayers.length == 0 || document.selectedLayers.length > 1 || document.selectedLayers.layers[0].type !== "Text") {
-        ui.message("🌈: Please select a Text layer to use as your base font reference. 😅");
+        sketch.UI.message("🌈: Please select a Text layer to use as your base font reference. 😅");
     } else {
         var selection = document.selectedLayers.layers[0];
         var currentPage = selection.getParentPage();
@@ -36,7 +34,9 @@ var onRun = function(context) {
         var selectionX = selection.frame.x;
         var selectionY = selection.frame.y;
 
+        var newArtboardCreated = false;
         if (currentArtboard === undefined) {
+            var newArtboardCreated = true;
             currentArtboard = createArtboard(currentPage, selectionX, selectionY, selection.frame.width, selection.frame.height, "Typography");
         }
 
@@ -84,7 +84,10 @@ var onRun = function(context) {
         }
         //// Get user input
         var result; //= [] + [doc askForUserInput:instructionalTextForInput initialValue:""];
-        var instructionalTextForInput = "The selected layer will be used as your base font size, lineheight and kerning (character spacing).";
+        var instructionalTextForInput = "The selected layer will be used as your base for:"
+        instructionalTextForInput += "\nfont family, font size, font-weight, and text color.";
+        instructionalTextForInput += "\n\n";
+        instructionalTextForInput += "Please, select the Scale from the list below:";
 
         let typographyScaleVariations = [
             "1.067",
@@ -101,26 +104,28 @@ var onRun = function(context) {
         ];
 
         let labels = [
-            "Minor Second",
-            "Major Second",
-            "Minor Third",
-            "Major Third",
-            "Perfect Fourth",
-            "Augmented Fourth",
-            "Perfect Fifth",
-            "Golden Ratio",
+            "1.067 - Minor Second",
+            "1.125 - Major Second",
+            "1.200 - Minor Third",
+            "1.250 - Major Third",
+            "1.333 - Perfect Fourth",
+            "1.414 - Augmented Fourth",
+            "1.500 - Perfect Fifth",
+            "1.618 - Golden Ratio",
         ];
 
         // Plugin interactive window
-        ui.getInputFromUser(
+        sketch.UI.getInputFromUser(
             "Choose a Typography Scale", {
                 description: instructionalTextForInput,
-                type: ui.INPUT_TYPE.selection,
+                type: sketch.UI.INPUT_TYPE.selection,
                 possibleValues: labels,
             },
             (err, value) => {
                 if (err) {
-                    // most likely the user canceled the input
+                    if (newArtboardCreated === true) {
+                        currentArtboard.remove()
+                    }
                     return;
                 } else {
                     result = typographyScaleVariations[labels.indexOf(value)];
@@ -270,9 +275,9 @@ var onRun = function(context) {
 
             selection.remove();
 
-            ui.message("🌈: Yay! Done generating typography scale with " + GeneratedStylesArray.length + " Text layers! 👏 🚀");
+            sketch.UI.message("🌈: Yay! Done generating typography scale with " + GeneratedStylesArray.length + " Text layers! 👏 🚀");
         } else {
-            ui.message("🌈: See you next when you are ready. 😀");
+            sketch.UI.message("🌈: See you next when you are ready. 😀");
         }
 
         function createArtboard(parentLayer, x, y, width, height, name) {
