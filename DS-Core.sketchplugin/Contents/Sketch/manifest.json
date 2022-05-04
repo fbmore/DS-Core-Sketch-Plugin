@@ -1,11 +1,12 @@
 {
     "name": "DS Core",
     "description": "Batch create Typography, Color Scales and Components really fast.",
-    "version": "1.5",
+    "version": "1.5.1",
     "author": "Francesco Bertocci & Matteo Gratton",
     "authorEmail": "fbmore@gmail.com",
-    "appcast": "https://raw.githubusercontent.com/fbmore/DS-Pro-Sketch-Plugin/main/appcast.xml",
-    "homepage": "https://github.com/fbmore/DS-Pro-Sketch-Plugin/",
+    "appcast": "https://raw.githubusercontent.com/fbmore/DS-Core-Sketch-Plugin/main/appcast.xml",
+    "homepage": "https://github.com/fbmore/DS-Core-Sketch-Plugin/",
+    "copyright": "Copyright © 2022 Francesco Bertocci & Matteo Gratton. All rights reserved.",
     "commands": [{
             "script": "create-color-scale.js",
             "name": "Generate Color Scales",
@@ -50,7 +51,7 @@
         }
     ],
     "menu": {
-        "title": "🧙‍♀️ Design Systems Pro",
+        "title": "Design Systems Core",
         "items": [
             "color-all",
             "color-scales",
@@ -63,6 +64,6 @@
         ],
         "isRoot": false
     },
-    "identifier": "com.fbmore.ds-pro",
+    "identifier": "com.fbmore.ds-core",
     "icon": "icon.png"
 }
