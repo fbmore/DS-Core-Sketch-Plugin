@@ -156,19 +156,7 @@ var onRun = function(context) {
             var StylesArraySizes = [];
 
             for (s = 0; s < StylesArray.length; s++) {
-                let scaleMuliplier = StylesArray[s][3]
-                let StyleArraySizeValue = 0
-                    // Default size
-                if (StylesArray[s][2] === true) {
-                    StylesArraySizes.push(baseFontSize)
-                } else {
-                    if (scaleMuliplier >= 1) {
-                        StyleArraySizeValue = Math.round(baseFontSize * Math.pow(scaleFactor, StylesArray[s][3]));
-                    } else {
-                        StyleArraySizeValue = Math.round(baseFontSize / Math.pow(scaleFactor, StylesArray[s][3]));
-                    }
-                    StylesArraySizes.push(StyleArraySizeValue);
-                }
+
             }
 
             var StylesArrayAlignments = ["left", "center", "right"];
@@ -190,14 +178,28 @@ var onRun = function(context) {
                 textsGroupWidth = 0;
                 textGroupHeight = 0;
                 for (s = 0; s < StylesArray.length; ++s) {
+                    let scaleMuliplier = StylesArray[s][3]
+
+                    let StyleArraySizeValue = 0
+                        // Default size
+                    if (StylesArray[s][2] === true) {
+                        StyleArraySizeValue = baseFontSize;
+                    } else {
+                        if (scaleMuliplier >= 1) {
+
+                            StyleArraySizeValue = Math.round(baseFontSize * Math.pow(scaleFactor, StylesArray[s][3]));
+                        } else {
+                            StyleArraySizeValue = Math.round(baseFontSize * Math.pow(scaleFactor, StylesArray[s][3]));
+                        }
+                    }
+                    // console.log("Style: " + StylesArray[s][0] + " - Multiplier: " + scaleMuliplier + " - Value: " + StyleArraySizeValue)
                     let newFolder = StylesArray[s][0];
                     let newName = StylesArray[s][1];
                     let styleName = newFolder + " - " + newAlign;
                     let layerName = newFolder + "/" + newName + " - " + newAlign;
-                    // var duplicatedLayer = selection.duplicate();
-                    let newFontFamily = selection.style.fontFamily;
 
-                    let newFontSize = StylesArraySizes[s];
+                    let newFontFamily = selection.style.fontFamily;
+                    let newFontSize = StyleArraySizeValue;
                     let newTextAlign = newAlign;
 
                     let newLineHeight = Math.round(newFontSize * lineHeightMultiplier);
@@ -228,6 +230,7 @@ var onRun = function(context) {
                         newFontSize,
                         newLineHeight
                     );
+
                     // Se the Color Variable
                     if (sketchversion >= 69) {
                         var currentSwatch = newSwatch;
@@ -240,8 +243,8 @@ var onRun = function(context) {
                         swatchContainer = document.sketchObject.documentData().sharedSwatches();
                         swatchContainer.updateReferencesToSwatch(currentSwatch.sketchObject);
                     }
-
-                    // Create (if needed) and Apply text styles
+                    console.log(newText)
+                        // Create (if needed) and Apply text styles
                     createNewTextStyle(newText, layerName, true, false);
                 }
                 newArtboardWidth += margin + alignmentGroup.frame.width;
@@ -325,6 +328,8 @@ var onRun = function(context) {
                 let textValue = value;
                 let textName = name;
                 let textAlign = align;
+                let textSize = fontSize;
+
 
                 let newText = new Text({
                     parent: textParent,
@@ -334,7 +339,7 @@ var onRun = function(context) {
                 newText.frame.x = textX;
                 newText.frame.y = textY;
                 newText.style.textColor = textColor;
-                newText.style.fontSize = fontSize;
+                newText.style.fontSize = textSize;
                 newText.style.lineHeight = lineHeight;
                 newText.style.alignment = textAlign;
                 newText.style.fontFamily = textFontFamily;
@@ -376,7 +381,6 @@ var onRun = function(context) {
                             });
                         }
                     }
-                    // return sharedStyle;
                 } else {
                     if (apply === true) {
                         let newTextStyleID = getTextStyleIDFromName(styleName);
