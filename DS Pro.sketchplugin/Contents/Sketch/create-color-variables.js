@@ -66,9 +66,6 @@ var onRun = function(context) {
                     layer.style.fills[0].color = newSwatch.referencingColor;
                 }
 
-
-
-
                 if (counter > 0) {
                     sketch.UI.message("🌈: Yay! You now have " + counter.toString() + " Color Variables available! 👏 🚀");
                 } else {
@@ -114,7 +111,6 @@ var onRun = function(context) {
     })
 
     function matchingSwatchForColor(color, name) {
-        console.log("function1");
         // We need to match color *and* name, if we want this to work
         const swatches = sketch.getSelectedDocument().swatches
         const matchingSwatches = swatches.filter(swatch => swatch.color === color)
@@ -140,7 +136,6 @@ var onRun = function(context) {
     }
 
     function colorVariableFromColor(color) {
-        console.log("function2");
         let swatch = matchingSwatchForColor(color)
         return swatch.referencingColor
     }
