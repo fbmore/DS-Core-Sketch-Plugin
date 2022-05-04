@@ -8,8 +8,8 @@ var onRun = function(context) {
     // var tokenPrefix = "$";
     var tokenPrefix = "";
 
-    var spaceX = 600;
-    var spaceY = 200;
+    var spaceX = 200;
+    var spaceY = 400;
 
     // var symboldStates = ["--default","--hover", "--pressed","--tab","--disabled" ]
     var states = [
@@ -145,11 +145,11 @@ var onRun = function(context) {
 
             if (sizeOrType == "primary" || sizeOrType == "medium" || sizeOrType == "md" || sizeOrType == "mobile") {
                 newState.frame.x = symbol.frame.x;
-                newState.frame.y = symbol.frame.y + spaceY * s;
+                newState.frame.y = symbol.frame.y + (symbol.frame.height + spaceY ) * s;
                 // changing divider for type, variants or sizes
                 divider = " - ";
             } else {
-                newState.frame.x = symbol.frame.x + spaceX * s;
+                newState.frame.x = symbol.frame.x + (symbol.frame.width + spaceX ) * s;
                 newState.frame.y = symbol.frame.y;
             }
 

@@ -44,7 +44,9 @@ var onRun = function(context) {
                     // most likely the user canceled the input
                     return;
                 } else {
-                    sketch.UI.message(value);
+                    // sketch.UI.message(value);
+                    sketch.UI.message("🌈: Yay! " + value.replace("Steps","Color steps created! 👏 🚀"));
+
 
                     let result = colorVariations[labels.indexOf(value)];
 

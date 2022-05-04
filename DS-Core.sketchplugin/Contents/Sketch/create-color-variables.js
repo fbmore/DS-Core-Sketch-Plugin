@@ -67,7 +67,12 @@ var onRun = function(context) {
                 }
 
                 if (counter > 0) {
-                    sketch.UI.message("🌈: Yay! You now have " + counter.toString() + " Color Variables available! 👏 🚀");
+                    if (counter < 2) {
+                    sketch.UI.message("🌈: Yay! You now have " + counter.toString() + " new Color Variable available! 👏 🚀");
+                  } else {
+                    sketch.UI.message("🌈: Yay! You now have " + counter.toString() + " new Color Variables available! 👏 🚀");
+                  }
+
                 } else {
                     sketch.UI.message("🌈: All the Color Variables already existed. You have " + document.swatches.length.toString() + " Color Variables available! 👏 🚀");
                 }

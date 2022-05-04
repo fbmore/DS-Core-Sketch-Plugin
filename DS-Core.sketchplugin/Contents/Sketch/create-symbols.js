@@ -55,7 +55,8 @@ var onRun = function(context) {
                     }
                 }
 
-                sketch.UI.message("🌈: Done creating (or updating) " + count + " symbols! 👏 🚀");
+                sketch.UI.message("🌈: Done creating " + count + " symbols! 👏 🚀");
+                // sketch.UI.message("🌈: Done creating (or updating) " + count + " symbols! 👏 🚀");
             }
         }
     );
