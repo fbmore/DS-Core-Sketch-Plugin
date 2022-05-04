@@ -9,6 +9,9 @@ var onRun = function(context) {
   var selections = selection.objectEnumerator();
   var count = 0;
 
+  // Detect Sketch Version
+  var sketchversion = sketch.version.sketch;
+
   var Rectangle = require('sketch/dom').Rectangle
   var ShapePath = require('sketch/dom').ShapePath
 
@@ -23,7 +26,16 @@ var onRun = function(context) {
 
     console.log(s)
     if (s.class() != "MSArtboardGroup") {
-      var symbols = MSLayerArray.arrayWithLayers([s]);
+
+
+        // to create symbols correctly before or after 84
+        if (sketchversion >= 84) {
+          var symbols = [s];
+        } else {
+          var symbols = MSLayerArray.arrayWithLayers([s]);
+        }
+
+
       var symbolName = s.name();
       console.log(symbolName)
       console.log(s)
@@ -60,7 +72,12 @@ var onRun = function(context) {
 
       count = count + 1;
     } else {
-      var symbols = MSLayerArray.arrayWithLayers([s]);
+      // to create symbols correctly before or after 84
+      if (sketchversion >= 84) {
+        var symbols = [s];
+      } else {
+        var symbols = MSLayerArray.arrayWithLayers([s]);
+      }
       var symbolName = s.name();
       var createSymbol = MSSymbolCreator.createSymbolFromLayers_withName_onSymbolsPage(symbols, symbolName, true);
       var simplifiedNameArray = symbolName.split("/");
