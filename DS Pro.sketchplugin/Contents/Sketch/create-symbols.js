@@ -1,104 +1,77 @@
+var sketch = require("sketch");
+var Page = require("sketch/dom").Page;
+
 var onRun = function(context) {
-  var sketch = require('sketch')
-  var document = sketch.getSelectedDocument();
-  var ui = require('sketch/ui')
-  var doc = context.document;
-  var selectedLayers = document.selectedLayers;
-  var selectedCount = selectedLayers.length;
-  var selection = context.selection;
-  var selections = selection.objectEnumerator();
-  var count = 0;
+    var document = sketch.getSelectedDocument();
 
-  // Detect Sketch Version
-  var sketchversion = sketch.version.sketch;
+    var selectedLayers = document.selectedLayers.layers;
+    var count = 0;
 
-  var Rectangle = require('sketch/dom').Rectangle
-  var ShapePath = require('sketch/dom').ShapePath
+    var SymbolMaster = require("sketch/dom").SymbolMaster;
 
+    var instructionalTextForInput = "Define how you want to name your Symbols:";
+    // instructionalTextForInput += "\n\n";
+    // instructionalTextForInput += "Layer name";
+    // instructionalTextForInput += "\n\n";
+    // instructionalTextForInput += "Page name:\nthe Page name is your Symbol group and the Layer name is your Symbol name";
 
-  console.log(selection.length)
-  //Loop over the selected layers/groups and add them to the symbols page skipping the options
-  // FIX turning an Artboard into a Symbol
+    var labels = ["Layer name", "Page name/Layer name"];
 
-  var currentSelectionIndex = 0
+    // Plugin interactive window
+    sketch.UI.getInputFromUser(
+        "Choose how to name your Symbols", {
+            description: instructionalTextForInput,
+            type: sketch.UI.INPUT_TYPE.selection,
+            possibleValues: labels,
+        },
+        (err, value) => {
+            if (err) {
+                return;
+            } else {
+                for (i = 0; i < selectedLayers.length; i++) {
+                    let layer = selectedLayers[i];
+                    let currentPage = layer.getParentPage();
+                    let isSymbolPage = false;
+                    if (currentPage === "Symbols") {
+                        isSymbolPage = true;
+                    }
+                    if (layer.type !== "SymbolMaster" && layer.getParentSymbolMaster() === undefined) {
+                        let itemX = layer.frame.x;
+                        let itemY = layer.frame.y;
+                        let itemWidth = layer.frame.width;
+                        let itemHeight = layer.frame.height;
+                        let itemName = layer.name;
+                        if (value === labels[1]) {
+                            itemName = layer.getParentPage().name + "/" + layer.name;
+                        }
 
-  while (s = selections.nextObject()) {
+                        let currentArtboard = createArtboard(currentPage, itemX, itemY, itemWidth, itemHeight, itemName);
+                        layer.parent = currentArtboard;
+                        layer.frame.x = 0;
+                        layer.frame.y = 0;
+                        let newSymbol = SymbolMaster.fromArtboard(currentArtboard);
 
-    console.log(s)
-    if (s.class() != "MSArtboardGroup") {
+                        count++;
+                    }
+                }
 
-
-        // to create symbols correctly before or after 84
-        if (sketchversion >= 84) {
-          var symbols = [s];
-        } else {
-          var symbols = MSLayerArray.arrayWithLayers([s]);
+                sketch.UI.message("🌈: Done creating (or updating) " + count + " symbols! 👏 🚀");
+            }
         }
+    );
 
-
-      var symbolName = s.name();
-      console.log(symbolName)
-      console.log(s)
-
-      // var layers = document.getLayersNamed(symbolName)
-      var layers = sketch.find('SymbolMaster, [name="'+symbolName+'"]')
-
-      // find all the Shape named "Layer-Name"
-      //sketch.find('Shape, [name="'+symbolName'"]')
-
-      if (layers.length) {
-        // do something
-        console.log("count: "+layers.length)
-        console.log(symbolName + " already exists")
-
-        selectedLayers.layers[currentSelectionIndex].parent = layers[0].layers[0].parent
-        selectedLayers.layers[currentSelectionIndex].frame.x = 0
-        selectedLayers.layers[currentSelectionIndex].frame.y = 0
-
-        layers[0].layers[0].remove()
-        layers[0].adjustToFit()
-        // rectangle.parent = layers[0]
-        console.log(layers[0])
-      } else {
-        var createSymbol = MSSymbolCreator.createSymbolFromLayers_withName_onSymbolsPage(symbols, symbolName, true);
-        var simplifiedNameArray = symbolName.split("/");
-        var simplifiedName = simplifiedNameArray[simplifiedNameArray.length - 1]
-        createSymbol.name = simplifiedName;
-        console.log(selection.length)
-      }
-
-      //  console.log(symbolName)
-
-
-      count = count + 1;
-    } else {
-      // to create symbols correctly before or after 84
-      if (sketchversion >= 84) {
-        var symbols = [s];
-      } else {
-        var symbols = MSLayerArray.arrayWithLayers([s]);
-      }
-      var symbolName = s.name();
-      var createSymbol = MSSymbolCreator.createSymbolFromLayers_withName_onSymbolsPage(symbols, symbolName, true);
-      var simplifiedNameArray = symbolName.split("/");
-      var simplifiedName = simplifiedNameArray[simplifiedNameArray.length - 1]
-      createSymbol.name = simplifiedName;
-      // createSymbol.layers[
-      console.log("createSymbol")
-      console.log(createSymbol.symbolID())
-      var masterSymbolFromInstance = document.getSymbolMasterWithID(createSymbol.symbolID());
-      // var masterSymbolFromInstance = document.getSymbolMasterWithID(Layer.symbolId);
-      console.log(masterSymbolFromInstance.name);
-
-      masterSymbolFromInstance.layers[0].sketchObject.ungroup()
-
-      count = count + 1;
+    function createArtboard(parentLayer, x, y, width, height, name) {
+        let Artboard = sketch.Artboard;
+        let artboard = new Artboard({
+            name: name,
+            parent: parentLayer,
+            frame: {
+                x: x,
+                y: y,
+                width: width,
+                height: height,
+            },
+        });
+        return artboard;
     }
-
-currentSelectionIndex = currentSelectionIndex + 1
-  }
-
-  ui.message("🌈: Done creating (or updating) " + count + " symbols! 👏 🚀");
-
-
 };
