@@ -161,7 +161,7 @@ var onRun = function(context) {
 
             var StylesArrayAlignments = ["left", "center", "right"];
 
-            var GeneratedStylesArray = [];
+            var counter = 0
 
             // Generate Typography and Styles from selected text layers and docuemnt colors
             let typographyStyleGroups = [];
@@ -173,7 +173,7 @@ var onRun = function(context) {
 
             for (a = 0; a < StylesArrayAlignments.length; ++a) {
                 let newAlign = StylesArrayAlignments[a];
-                let alignmentGroup = createGroup(currentArtboard, [], "Texts Align " + newAlign);
+                let alignmentGroup = createGroup(currentArtboard, [], "Text styles - align " + newAlign);
                 typographyStyleGroups.push(alignmentGroup);
                 textsGroupWidth = 0;
                 textGroupHeight = 0;
@@ -186,10 +186,9 @@ var onRun = function(context) {
                         StyleArraySizeValue = baseFontSize;
                     } else {
                         if (scaleMuliplier >= 1) {
-
                             StyleArraySizeValue = Math.round(baseFontSize * Math.pow(scaleFactor, StylesArray[s][3]));
                         } else {
-                            StyleArraySizeValue = Math.round(baseFontSize * Math.pow(scaleFactor, StylesArray[s][3]));
+                            StyleArraySizeValue = Math.round(baseFontSize / Math.pow(scaleFactor, StylesArray[s][3]));
                         }
                     }
                     // console.log("Style: " + StylesArray[s][0] + " - Multiplier: " + scaleMuliplier + " - Value: " + StyleArraySizeValue)
@@ -230,6 +229,8 @@ var onRun = function(context) {
                         newFontSize,
                         newLineHeight
                     );
+
+                    counter++;
 
                     // Se the Color Variable
                     if (sketchversion >= 69) {
@@ -278,9 +279,9 @@ var onRun = function(context) {
 
             selection.remove();
 
-            ui.message("🌈: Yay! Done generating typography scale with " + GeneratedStylesArray.length + " Text layers! 👏 🚀");
+            ui.message("🌈: Yay! Done generating typography scale with " + counter + " text styles! 👏 🚀");
         } else {
-            ui.message("🌈: See you next when you are ready. 😀");
+            ui.message("🌈: Please select a Text layer to use as your base font reference. 😅");
         }
 
         function createArtboard(parentLayer, x, y, width, height, name) {

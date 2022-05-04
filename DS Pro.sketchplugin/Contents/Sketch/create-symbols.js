@@ -10,12 +10,12 @@ var onRun = function(context) {
     var SymbolMaster = require("sketch/dom").SymbolMaster;
 
     var instructionalTextForInput = "Define how you want to name your Symbols:";
-    instructionalTextForInput += "\n\n";
-    instructionalTextForInput += "Default:\nwill name them based on their current layer name";
-    instructionalTextForInput += "\n\n";
-    instructionalTextForInput += "Page name:\nwill add the Page name as your Symbol group";
+    // instructionalTextForInput += "\n\n";
+    // instructionalTextForInput += "Layer name";
+    // instructionalTextForInput += "\n\n";
+    // instructionalTextForInput += "Page name:\nthe Page name is your Symbol group and the Layer name is your Symbol name";
 
-    var labels = ["Default", "Page name as symbol group"];
+    var labels = ["Layer name", "Page name/Layer name"];
 
     // Plugin interactive window
     sketch.UI.getInputFromUser(
