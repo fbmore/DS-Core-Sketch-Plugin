@@ -10,7 +10,7 @@ var divider = "--";
 // var tokenPrefix = "$";
 var tokenPrefix = "";
 
-var spaceX = 100
+var spaceX = 200
 var spaceY = 100
 
 // var symboldStates = ["--default","--hover", "--pressed","--tab","--disabled" ]
@@ -134,11 +134,11 @@ for (e = 0; e < elements.length; ++e) {
 
     if (sizeOrType == "primary" || sizeOrType == "medium" || sizeOrType == "md" || sizeOrType == "mobile"){
       newState.frame.x = symbol.frame.x;
-      newState.frame.y = (symbol.frame.y + symbol.frame.height + spaceY) * s;
+      newState.frame.y = symbol.frame.y + (symbol.frame.height + spaceY) * s;
       // changing divider for type, variants or sizes
       divider = " - "
     } else {
-      newState.frame.x = (symbol.frame.x + symbol.frame.width + spaceX) * s;
+      newState.frame.x = symbol.frame.x + (symbol.frame.width + spaceX) * s;
       newState.frame.y = symbol.frame.y;
     }
 
