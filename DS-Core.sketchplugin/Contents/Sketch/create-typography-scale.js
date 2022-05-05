@@ -52,7 +52,7 @@ var onRun = function(context) {
         var layerStyles = document.sharedLayerStyles;
         var textStyles = document.sharedTextStyles;
 
-        // Default margins 
+        // Default margins
         var margin = 24;
         var moveby = 0;
         // var lineHeightMultiplier = 1.5;
@@ -85,10 +85,10 @@ var onRun = function(context) {
         }
         //// Get user input
         var result; //= [] + [doc askForUserInput:instructionalTextForInput initialValue:""];
-        var instructionalTextForInput = "The selected layer will be used as your base for:"
+        var instructionalTextForInput = "The selected text layer will be used as your base for"
         instructionalTextForInput += "\nfont family, font size, font-weight, and text color.";
         instructionalTextForInput += "\n\n";
-        instructionalTextForInput += "Please, select the Scale from the list below:";
+        instructionalTextForInput += "Please select a Scale from the list below:";
 
         let typographyScaleVariations = [
             "1.067",
@@ -99,9 +99,6 @@ var onRun = function(context) {
             "1.414",
             "1.5",
             "1.618",
-            "1.667",
-            "1.778",
-            "1.875",
         ];
 
         let labels = [
