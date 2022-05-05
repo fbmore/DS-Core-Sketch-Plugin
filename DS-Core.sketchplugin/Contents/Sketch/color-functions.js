@@ -1,11 +1,12 @@
-function increase_brightness(hex, percent) {
-    // strip the leading # if it's there
-    hex = hex.replace(/^\s*#|\s*$/g, "");
+// **********************************************************
+// General color functions for all the scripts
+// import via @import(@import "color-functions.js") at the very
+// beginning of your script (after the var onRun() statement)
+// **********************************************************
 
-    // convert 3 char codes --> 6, e.g. `E0F` --> `EE00FF`
-    if (hex.length == 3) {
-        hex = hex.replace(/(.)/g, "$1$1");
-    }
+/// Brightness management for color scales
+function increase_brightness(hex, percent) {
+    hex = standardizeHex(hex);
 
     let r = parseInt(hex.substr(0, 2), 16);
     let g = parseInt(hex.substr(2, 2), 16);
@@ -36,6 +37,22 @@ function increase_brightness(hex, percent) {
     b = colorRGB[2];
 
     return RGBToHex(r, g, b);
+}
+
+/// Invert Colors
+function invertColor(hex) {
+    hex = standardizeHex(hex);
+
+    if (hex.length !== 6 && hex.length !== 8) {
+        throw new Error("Invalid HEX color.");
+    }
+    // invert color components
+    var r = 255 - parseInt(hex.slice(0, 2), 16);
+    var g = 255 - parseInt(hex.slice(2, 4), 16);
+    var b = 255 - parseInt(hex.slice(4, 6), 16);
+    var a = hex.slice(6, 8);
+
+    return RGBToHex(r, g, b) + a;
 }
 
 /// RGBToHex
@@ -140,6 +157,16 @@ function HSLToRGB(h, s, l) {
     return [r, g, b];
 }
 
+/// Standardize HEX
+function standardizeHex(hex) {
+    hex = hex.replace(/^\s*#|\s*$/g, "");
+    // convert 3 char codes --> 6, e.g. `E0F` --> `EE00FF`
+    if (hex.length == 3 || hex.lenght == 4) {
+        hex = hex.replace(/(.)/g, "$1$1");
+    }
+    return hex;
+}
+
 // Update Color Variables
 function updateLayerWithColorVariables(context) {
     // When you open an existing document in Sketch 69, the color assets in the document will be migrated to Color Swatches. However, layers using those colors will not be changed to use the new swatches. This plugin takes care of this
@@ -194,4 +221,23 @@ function matchingSwatchForColor(color, name) {
 function colorVariableFromColor(color) {
     let swatch = matchingSwatchForColor(color);
     return swatch.referencingColor;
+}
+
+function createColorVariable(colorName, color) {
+    const documentColors = sketch.getSelectedDocument().colors;
+    // Generate the Color Variable, if not existent
+    if (sketchversion >= 69) {
+        var arrayColorVarNames = document.swatches.map((Swatch) => Swatch["name"]);
+        const Swatch = sketch.Swatch;
+        var newSwatch = Swatch.from({ name: colorName, color: color });
+
+        if (arrayColorVarNames.indexOf(colorName) === -1) {
+            document.swatches.push(newSwatch);
+        }
+    } else {
+        var arrayColorAssetsNames = documentColors.map((ColorAsset) => ColorAsset["name"]);
+        if (arrayColorAssetsNames.indexOf(colorName) === -1) {
+            documentColors.push({ type: "ColorAsset", name: colorName, color: color });
+        }
+    }
 }
