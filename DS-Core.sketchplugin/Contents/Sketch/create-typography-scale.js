@@ -33,9 +33,14 @@ var onRun = function(context) {
         var originalSelection = selection;
         var currentPage = selection.getParentPage();
         var currentArtboard = selection.getParentArtboard();
+        console.log(currentArtboard);
 
         var selectionX = selection.frame.x;
         var selectionY = selection.frame.y;
+        if (currentArtboard !== undefined) {
+            selectionX = currentArtboard.frame.x;
+            selectionY = currentArtboard.frame.y;
+        }
 
         var newArtboardCreated = false;
         if (currentArtboard === undefined) {

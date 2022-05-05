@@ -1,7 +1,7 @@
 {
     "name": "DS Core",
     "description": "Batch create Typography, Color Scales and Components really fast.",
-    "version": "1.5.4",
+    "version": "1.5.5",
     "author": "Francesco Bertocci & Matteo Gratton",
     "authorEmail": "fbmore@gmail.com",
     "appcast": "https://raw.githubusercontent.com/fbmore/DS-Core-Sketch-Plugin/main/appcast.xml",
