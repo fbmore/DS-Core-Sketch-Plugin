@@ -33,7 +33,6 @@ var onRun = function(context) {
         var originalSelection = selection;
         var currentPage = selection.getParentPage();
         var currentArtboard = selection.getParentArtboard();
-        console.log(currentArtboard);
 
         var selectionX = selection.frame.x;
         var selectionY = selection.frame.y;
@@ -177,14 +176,13 @@ var onRun = function(context) {
                 var StylesArraySizes = [];
 
                 let internalMargin = margin * 2;
-
                 for (a = 0; a < typographyStylesArrayAlignments.length; a++) {
                     let newAlign = typographyStylesArrayAlignments[a];
                     let alignmentGroup = createGroup(currentArtboard, [], "Text styles - align " + newAlign);
                     typographyStyleGroups.push(alignmentGroup);
                     textsGroupWidth = 0;
                     textGroupHeight = 0;
-                    for (s = 0; s < typographyStylesArray.length; ++s) {
+                    for (s = 0; s < typographyStylesArray.length; s++) {
                         let scaleMuliplier = typographyStylesArray[s][3]
 
                         let StyleArraySizeValue = 0
@@ -289,6 +287,15 @@ var onRun = function(context) {
                     // Adjust group sizes to their contents and position the last group correctly
                     typographyStyleGroups[i].adjustToFit();
                     typographyStyleGroups[2].frame.x = (typographyStyleGroups[1].frame.x + typographyStyleGroups[1].frame.width) + (typographyStyleGroups[1].frame.x - (typographyStyleGroups[0].frame.x + typographyStyleGroups[0].frame.width))
+
+                    // Invert the order in the Layer list
+                    document.selectedLayers = [];
+                    let layersInGroup = typographyStyleGroups[i].layers;
+                    for (lg = 0; lg < layersInGroup.length; lg++) {
+                        layersInGroup[lg].selected = true;
+                    }
+                    reverseSelectedLayers(document.selectedLayers);
+                    document.selectedLayers = [];
                 }
 
                 // Size Typography Artboard
@@ -434,6 +441,27 @@ var onRun = function(context) {
                 }
             }
             return styleID;
+        }
+
+        function reverseSelectedLayers(selectedLayers) {
+            var indexArray = new Array;
+            selectedLayers.forEach(nativeLayer => {
+                var layer = sketch.fromNative(nativeLayer);
+                indexArray.push(layer.index);
+            });
+
+            for (var i = 1; i < indexArray.length; i++) {
+                if (indexArray[i] !== indexArray[i - 1] + 1) {
+                    const message = "Please select consecutive layers 🙅🏻";
+                    sketch.UI.message(message);
+                    throw new Error(message);
+                }
+            }
+
+            selectedLayers.forEach(nativeLayer => {
+                var layer = sketch.fromNative(nativeLayer);
+                layer.index = indexArray.pop();
+            });
         }
     }
 };
