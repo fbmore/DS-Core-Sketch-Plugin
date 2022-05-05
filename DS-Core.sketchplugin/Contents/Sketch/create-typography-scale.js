@@ -1,17 +1,17 @@
+var sketch = require("sketch");
+var ui = require("sketch/ui");
+var sketchversion = sketch.version.sketch;
+var Group = require("sketch/dom").Group;
+var Text = require("sketch/dom").Text;
+var SharedStyle = require("sketch/dom").SharedStyle;
+var HotSpot = require("sketch/dom").HotSpot;
+var Flow = require("sketch/dom").Flow;
+
+var document = sketch.getSelectedDocument();
 @import "functions.js"
 
 var onRun = function(context) {
-    var sketch = require("sketch");
-    var ui = require("sketch/ui");
-    var sketchversion = sketch.version.sketch;
-
-    var Group = require("sketch/dom").Group;
-    var Text = require("sketch/dom").Text;
-    var SharedStyle = require("sketch/dom").SharedStyle;
-    var HotSpot = require("sketch/dom").HotSpot;
-    var Flow = require("sketch/dom").Flow;
-
-    var document = sketch.getSelectedDocument();
+    @import "color-functions.js";
 
     // Text Styles Management
     var textStyles = document.sharedTextStyles;
@@ -232,9 +232,8 @@ var onRun = function(context) {
 
                     // Se the Color Variable
                     if (sketchversion >= 69) {
-                        var currentSwatch = newSwatch;
-                        let swatchContainer = document.sketchObject.documentData().sharedSwatches();
-                        currentSwatch.sketchObject.updateWithColor(MSColor.colorWithHex_alpha(color.slice(1, 6), 1));
+                        var currentSwatch = matchingSwatchForColor(colorName);
+
                         var myColor = currentSwatch.referencingColor;
 
                         newText.style.textColor = myColor;
@@ -242,18 +241,15 @@ var onRun = function(context) {
                         swatchContainer = document.sketchObject.documentData().sharedSwatches();
                         swatchContainer.updateReferencesToSwatch(currentSwatch.sketchObject);
                     }
-                    console.log(newText)
-                        // Create (if needed) and Apply text styles
+
+                    // Create (if needed) and Apply text styles
                     createNewTextStyle(newText, layerName, true, false);
                 }
+
+
                 newArtboardWidth += margin + alignmentGroup.frame.width;
                 newArtboardHeight = margin + alignmentGroup.frame.height;
             }
-            // newArtboardWidth += margin;
-            // newArtboardHeight += margin;
-            //
-            // currentArtboard.frame.width = newArtboardWidth;
-            // currentArtboard.frame.height = newArtboardHeight;
 
             // Handle the Group and Layer re-position inside the Artboard
             let groupPosX = 0;
@@ -262,7 +258,6 @@ var onRun = function(context) {
                 typographyStyleGroups[i].frame.y = Math.round(typographyStyleGroups[i].frame.y) + margin;
                 groupPosX += Math.round(typographyStyleGroups[i].frame.width);
 
-                // layer.adjustToFit();
                 // align center
                 if (i === 1) {
                     typographyStyleGroups[i].layers.forEach((layer) => {
@@ -285,12 +280,10 @@ var onRun = function(context) {
             newArtboardWidth = typographyStyleGroups[2].frame.x + typographyStyleGroups[2].frame.width + margin;
             newArtboardHeight += margin;
 
-            // currentArtboard.frame.width = newArtboardWidth;
-            // currentArtboard.frame.height = newArtboardHeight;
             currentArtboard.frame.width = newArtboardWidth;
             currentArtboard.frame.height = newArtboardHeight;
 
-            ///
+
 
             selection.remove();
 
@@ -429,6 +422,8 @@ var onRun = function(context) {
             return styleID;
         }
     }
+
+
 };
 
 function sortFunction(a, b) {

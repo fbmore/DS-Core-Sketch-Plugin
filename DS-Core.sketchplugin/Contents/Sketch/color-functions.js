@@ -137,9 +137,61 @@ function HSLToRGB(h, s, l) {
     g = Math.round((g + m) * 255);
     b = Math.round((b + m) * 255);
 
-    // console.log("RGB from HSL");
-    // console.log(r + "," + g + "," + b);
-
-    // return "rgb(" + r + "," + g + "," + b + ")";
     return [r, g, b];
+}
+
+// Update Color Variables
+function updateLayerWithColorVariables(context) {
+    // When you open an existing document in Sketch 69, the color assets in the document will be migrated to Color Swatches. However, layers using those colors will not be changed to use the new swatches. This plugin takes care of this
+    const allLayers = sketch.find("*"); // TODO: optimise this query: ShapePath, SymbolMaster, Text, SymbolInstance
+    allLayers.forEach((layer) => {
+        layer.style.fills
+            .concat(layer.style.borders)
+            .filter((item) => item.fillType == "Color")
+            .forEach((item) => {
+                const layerColor = item.color;
+                let swatch = matchingSwatchForColor(layerColor);
+                if (!swatch) {
+                    return;
+                }
+                item.color = swatch.referencingColor;
+            });
+        // Previous actions don't work for Text Layer colors that are colored using TextColor, so let's fix that:
+        if (layer.style.textColor) {
+            const layerColor = layer.style.textColor;
+            let swatch = matchingSwatchForColor(layerColor);
+            if (!swatch) {
+                return;
+            }
+            layer.style.textColor = swatch.referencingColor;
+        }
+    });
+}
+
+function matchingSwatchForColor(color, name) {
+    // We need to match color *and* name, if we want this to work
+    const swatches = sketch.getSelectedDocument().swatches;
+    const matchingSwatches = swatches.filter((swatch) => swatch.color === color);
+    if (matchingSwatches.length == 0) {
+        return null;
+    }
+    if (matchingSwatches.length == 1) {
+        return matchingSwatches[0];
+    }
+    // This means there are multiple swatches matching the color. We'll see if we can find one that also matches the name. If we don't find one, or there is no name provided, return the first match.
+    if (name) {
+        const swatchesMatchingName = matchingSwatches.filter((swatch) => swatch.name === name);
+        if (swatchesMatchingName.length) {
+            return swatchesMatchingName[0];
+        } else {
+            return matchingSwatches[0];
+        }
+    } else {
+        return matchingSwatches[0];
+    }
+}
+
+function colorVariableFromColor(color) {
+    let swatch = matchingSwatchForColor(color);
+    return swatch.referencingColor;
 }
