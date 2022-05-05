@@ -73,21 +73,6 @@ var onRun = function(context) {
         var color = selection.style.textColor;
         var colorname = selection.name;
 
-        // Generate the Color Variable, if not existent
-        // createColorVariable(colorname, color);
-        // if (sketchversion >= 69) {
-        //     const Swatch = sketch.Swatch;
-        //     var newSwatch = Swatch.from({ name: colorname, color: color });
-
-        //     if (arrayColorVarNames.indexOf(colorname) === -1) {
-        //         document.swatches.push(newSwatch);
-        //     } else {}
-
-        // } else {
-        //     if (arrayColorAssetsNames.indexOf(colorname) === -1) {
-        //         documentColors.push({ type: "ColorAsset", name: colorname, color: color });
-        //     } else {}
-        // }
         //// Get user input
         var result; //= [] + [doc askForUserInput:instructionalTextForInput initialValue:""];
         var instructionalTextForInput = "The selected text layer will be used as your base for"
@@ -124,19 +109,24 @@ var onRun = function(context) {
             let newArtboardWidth = 0;
             let newArtboardHeight = 0;
             let groupPosX = 0;
+            let internalMargin = 0;
+            let colorNameForVariables = colorname;
 
             // Manage settings and more themes
             if (typographyThemes) {
                 // When more themes are in use, we should create as many Artboards as the number of themes
                 currentArtboard.remove()
+
                 for (tt = 0; tt < typographyThemesArray.length; tt++) {
                     themeName = typographyThemesArray[tt][0];
                     if (typographyThemesArray[tt][1] === "Inverted") {
                         baseTextColor = invertColor(baseTextColor);
-                        colorname += "-inverted";
+                        colorNameForVariables = colorname + "-light";
                     } else if (typographyThemesArray[tt][1] !== "Default") {
                         // NOTE: this part need work, as we can check for primary/seondary colors etc in Color Variables
                         baseTextColor = "#000000";
+                    } else {
+                        colorNameForVariables = colorname + "-dark";
                     }
 
                     // Generate the Themed Artboard
@@ -164,7 +154,6 @@ var onRun = function(context) {
                     textGroupHeight = 0;
                     newArtboardWidth = 0;
                     newArtboardHeight = 0;
-
                 }
             } else {
                 createScale();
@@ -175,7 +164,7 @@ var onRun = function(context) {
 
                 var StylesArraySizes = [];
 
-                let internalMargin = margin * 2;
+                internalMargin = margin * 2;
                 for (a = 0; a < typographyStylesArrayAlignments.length; a++) {
                     let newAlign = typographyStylesArrayAlignments[a];
                     let alignmentGroup = createGroup(currentArtboard, [], "Text styles - align " + newAlign);
@@ -241,7 +230,7 @@ var onRun = function(context) {
                         counter++;
 
                         // Create a new color variable if it doesn't exist
-                        createColorVariable(colorname, baseTextColor);
+                        createColorVariable(colorNameForVariables, baseTextColor);
 
                         // Set the Color Variable
                         if (sketchversion >= 69) {
