@@ -5,7 +5,7 @@
     <description>Batch create Typography, Color Scales and Components really fast.</description>
     <language>en</language>
     <item>
-      <title>Version 1.5.1</title>
+      <title>Version 1.5.2</title>
       <description>
         <![CDATA[
         <ul>
@@ -13,7 +13,7 @@
         </ul>
         ]]>
       </description>
-      <enclosure url="https://github.com/fbmore/DS-Core-Sketch-Plugin/raw/main/DS-Core.sketchplugin.zip" sparkle:version="1.5.1" type="application/octet-stream"/>
+      <enclosure url="https://github.com/fbmore/DS-Core-Sketch-Plugin/raw/main/DS-Core.sketchplugin.zip" sparkle:version="1.5.2" type="application/octet-stream"/>
     </item>
   </channel>
 </rss>

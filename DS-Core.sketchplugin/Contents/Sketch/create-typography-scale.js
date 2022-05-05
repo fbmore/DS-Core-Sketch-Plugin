@@ -166,7 +166,8 @@ var onRun = function(context) {
             let textGroupHeight = 0;
             let newArtboardWidth = 0;
             let newArtboardHeight = 0;
-            margin = Math.round(margin * 2 * scaleFactor);
+            // margin = Math.round(margin * 2 * scaleFactor);
+            margin = margin * 2;
 
             for (a = 0; a < StylesArrayAlignments.length; ++a) {
                 let newAlign = StylesArrayAlignments[a];
@@ -248,11 +249,11 @@ var onRun = function(context) {
                 newArtboardWidth += margin + alignmentGroup.frame.width;
                 newArtboardHeight = margin + alignmentGroup.frame.height;
             }
-            newArtboardWidth += margin;
-            newArtboardHeight += margin;
-
-            currentArtboard.frame.width = newArtboardWidth;
-            currentArtboard.frame.height = newArtboardHeight;
+            // newArtboardWidth += margin;
+            // newArtboardHeight += margin;
+            //
+            // currentArtboard.frame.width = newArtboardWidth;
+            // currentArtboard.frame.height = newArtboardHeight;
 
             // Handle the Group and Layer re-position inside the Artboard
             let groupPosX = 0;
@@ -260,6 +261,8 @@ var onRun = function(context) {
                 typographyStyleGroups[i].frame.x = groupPosX + margin * (i + 1);
                 typographyStyleGroups[i].frame.y = Math.round(typographyStyleGroups[i].frame.y) + margin;
                 groupPosX += Math.round(typographyStyleGroups[i].frame.width);
+
+                // layer.adjustToFit();
                 // align center
                 if (i === 1) {
                     typographyStyleGroups[i].layers.forEach((layer) => {
@@ -272,7 +275,22 @@ var onRun = function(context) {
                         layer.frame.x = Math.round(typographyStyleGroups[i].frame.width - layer.frame.width);
                     });
                 }
+
+                // Adjust group sizes to their contents and position the last group correctly
+                typographyStyleGroups[i].adjustToFit();
+                typographyStyleGroups[2].frame.x = (typographyStyleGroups[1].frame.x + typographyStyleGroups[1].frame.width) + (typographyStyleGroups[1].frame.x - (typographyStyleGroups[0].frame.x + typographyStyleGroups[0].frame.width))
             }
+
+            // Size Typography Artboard
+            newArtboardWidth = typographyStyleGroups[2].frame.x + typographyStyleGroups[2].frame.width + margin;
+            newArtboardHeight += margin;
+
+            // currentArtboard.frame.width = newArtboardWidth;
+            // currentArtboard.frame.height = newArtboardHeight;
+            currentArtboard.frame.width = newArtboardWidth;
+            currentArtboard.frame.height = newArtboardHeight;
+
+            ///
 
             selection.remove();
 
