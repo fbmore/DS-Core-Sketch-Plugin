@@ -1,10 +1,27 @@
+// **********************************************************
+// General settings for all the scripts
+// import via @import(@import "settings.js") at the very
+// beginning of your script
+// **********************************************************
+
 function nameList(array = []) {
     let checkArray = [];
     if (array.length > 0) {
         for (i = 0; i < array.length; i++) {
             let name = array[i];
             let group = false;
-            let options = [" 50", " 100", " 200", " 300", " 400", " 500", " 600", " 700", " 800", " 900"];
+            let options = [
+                " 50",
+                " 100",
+                " 200",
+                " 300",
+                " 400",
+                " 500",
+                " 600",
+                " 700",
+                " 800",
+                " 900",
+            ];
 
             // Automatically remove the scale values generated with the create color scale script
             for (j = 0; j < options.length; j++) {
@@ -67,7 +84,12 @@ function deepCompare() {
 
         // remember that NaN === NaN returns false
         // and isNaN(undefined) returns true
-        if (isNaN(x) && isNaN(y) && typeof x === "number" && typeof y === "number") {
+        if (
+            isNaN(x) &&
+            isNaN(y) &&
+            typeof x === "number" &&
+            typeof y === "number"
+        ) {
             return true;
         }
 

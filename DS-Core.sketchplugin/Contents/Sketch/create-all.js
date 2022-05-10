@@ -4,11 +4,11 @@ var document = sketch.getSelectedDocument();
 const Swatch = sketch.Swatch;
 var selection = document.selectedLayers;
 @import "settings.js";
-@import "sketch-functions.js";
-@import "functions.js";
+@import "./functions/sketch-functions.js";
+@import "./functions/functions.js";
 
 var onRun = function(context) {
-    @import "color-functions.js";
+    @import "./functions/color-functions.js";
     var newSelection = [];
 
     // console.log("Generate color scale from selection");

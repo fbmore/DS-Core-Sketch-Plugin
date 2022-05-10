@@ -1,3 +1,9 @@
+// **********************************************************
+// General settings for all the scripts
+// import via @import(@import "settings.js") at the very
+// beginning of your script
+// **********************************************************
+
 function createArtboard(parentLayer, x, y, width, height, name) {
     let Artboard = sketch.Artboard;
     let artboard = new Artboard({
@@ -33,7 +39,18 @@ function createGroup(parentLayer, children, name, x = 0, y = 0) {
     }
 }
 
-function createTextNoStyle(parentLayer, name, value, x, y, color, align, fontFamily, fontSize, lineHeight) {
+function createTextNoStyle(
+    parentLayer,
+    name,
+    value,
+    x,
+    y,
+    color,
+    align,
+    fontFamily,
+    fontSize,
+    lineHeight
+) {
     try {
         let textX = x;
         let textY = y;
@@ -66,7 +83,14 @@ function createTextNoStyle(parentLayer, name, value, x, y, color, align, fontFam
     }
 }
 
-function createNewTextStyle(item, styleName, apply = false, variants = false, availableNames = [], textStyles = []) {
+function createNewTextStyle(
+    item,
+    styleName,
+    apply = false,
+    variants = false,
+    availableNames = [],
+    textStyles = []
+) {
     // let document = sketch.getSelectedDocument();
     let arrayTextStyleNames = availableNames;
     try {
@@ -86,7 +110,9 @@ function createNewTextStyle(item, styleName, apply = false, variants = false, av
             if (variants === true && states.length > 0) {
                 styleName = styleName.replace(states[0], "");
                 for (let vIndex = 1; vIndex < states.length; vIndex++) {
-                    styleName = styleName.replace(states[vIndex - 1], "") + states[vIndex];
+                    styleName =
+                        styleName.replace(states[vIndex - 1], "") +
+                        states[vIndex];
                     sharedStyle = textStyles.push({
                         name: styleName,
                         style: item.style,
@@ -111,7 +137,9 @@ function updateTextStyles() {
     let textStyles = document.sharedTextStyles;
     arrayTextStyleIDs = textStyles.map((sharedstyle) => sharedstyle["id"]);
     arrayTextStyleNames = textStyles.map((sharedstyle) => sharedstyle["name"]);
-    arrayTextStyleStyles = textStyles.map((sharedstyle) => sharedstyle["style"]);
+    arrayTextStyleStyles = textStyles.map(
+        (sharedstyle) => sharedstyle["style"]
+    );
 }
 
 function getTextStyleIDFromName(name) {

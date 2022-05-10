@@ -2,6 +2,7 @@
 // General color functions for all the scripts
 // import via @import(@import "color-functions.js") at the very
 // beginning of your script (after the var onRun() statement)
+// because the "context" variable is required (Actions)
 // **********************************************************
 
 /// Brightness management for color scales
@@ -198,7 +199,9 @@ function updateLayerWithColorVariables(context) {
 function matchingSwatchForColor(color, name) {
     // We need to match color *and* name, if we want this to work
     const swatches = sketch.getSelectedDocument().swatches;
-    const matchingSwatches = swatches.filter((swatch) => swatch.color === color);
+    const matchingSwatches = swatches.filter(
+        (swatch) => swatch.color === color
+    );
     if (matchingSwatches.length == 0) {
         return null;
     }
@@ -207,7 +210,9 @@ function matchingSwatchForColor(color, name) {
     }
     // This means there are multiple swatches matching the color. We'll see if we can find one that also matches the name. If we don't find one, or there is no name provided, return the first match.
     if (name) {
-        const swatchesMatchingName = matchingSwatches.filter((swatch) => swatch.name === name);
+        const swatchesMatchingName = matchingSwatches.filter(
+            (swatch) => swatch.name === name
+        );
         if (swatchesMatchingName.length) {
             return swatchesMatchingName[0];
         } else {
@@ -227,7 +232,9 @@ function createColorVariable(colorName, color) {
     const documentColors = sketch.getSelectedDocument().colors;
     // Generate the Color Variable, if not existent
     if (sketchversion >= 69) {
-        var arrayColorVarNames = document.swatches.map((Swatch) => Swatch["name"]);
+        var arrayColorVarNames = document.swatches.map(
+            (Swatch) => Swatch["name"]
+        );
         const Swatch = sketch.Swatch;
         var newSwatch = Swatch.from({ name: colorName, color: color });
 
@@ -235,9 +242,15 @@ function createColorVariable(colorName, color) {
             document.swatches.push(newSwatch);
         }
     } else {
-        var arrayColorAssetsNames = documentColors.map((ColorAsset) => ColorAsset["name"]);
+        var arrayColorAssetsNames = documentColors.map(
+            (ColorAsset) => ColorAsset["name"]
+        );
         if (arrayColorAssetsNames.indexOf(colorName) === -1) {
-            documentColors.push({ type: "ColorAsset", name: colorName, color: color });
+            documentColors.push({
+                type: "ColorAsset",
+                name: colorName,
+                color: color,
+            });
         }
     }
 }

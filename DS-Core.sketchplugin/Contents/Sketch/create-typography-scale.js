@@ -9,12 +9,12 @@ var Flow = require("sketch/dom").Flow;
 
 var document = sketch.getSelectedDocument();
 @import "settings.js";
-@import "sketch-functions.js";
-@import "functions.js";
+@import "./functions/sketch-functions.js";
+@import "./functions/functions.js";
 
 
 var onRun = function(context) {
-    @import "color-functions.js";
+    @import "./functions/color-functions.js";
 
     // Text Styles Management
     var textStyles = document.sharedTextStyles;
