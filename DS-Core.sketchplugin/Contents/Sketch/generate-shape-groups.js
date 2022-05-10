@@ -1,6 +1,6 @@
-var onRun = function(context) {
-    let sketch = require("sketch");
+var sketch = require("sketch");
 
+var onRun = function(context) {
     let document = sketch.getSelectedDocument();
     let selectedLayers = document.selectedLayers.layers;
     // var selection = document.selectedLayers.layers[0];
@@ -12,16 +12,6 @@ var onRun = function(context) {
             var parentArtboard = groupLayer.getParentArtboard();
             let newName = parentArtboard.name;
             // groupLayer.layers = groupLayer.layers.concat(new sketch.Shape());
-
-            console.log(groupLayer);
-            // if (layer.type === "Shape") {
-            //     let innerLayers = layer.layers;
-            //     for (i = 0; i < innerLayers.length; i++) {
-            //         let innerLayer = innerLayers[i];
-            //         console.log(innerLayer);
-            //         innerLayer.sketchObject.booleanOperation = -1;
-            //     }
-            // }
         }
     }
 };

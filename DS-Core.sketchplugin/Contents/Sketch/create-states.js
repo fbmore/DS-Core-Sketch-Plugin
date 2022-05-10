@@ -1,9 +1,9 @@
-var onRun = function(context) {
-    var sketch = require("sketch");
-    var sketchDom = require("sketch/dom");
-    var ui = require("sketch/ui");
-    var document = sketch.getSelectedDocument();
+var sketch = require("sketch");
+var sketchDom = require("sketch/dom");
+var ui = require("sketch/ui");
+var document = sketch.getSelectedDocument();
 
+var onRun = function(context) {
     var divider = "--";
     // var tokenPrefix = "$";
     var tokenPrefix = "";
@@ -11,7 +11,6 @@ var onRun = function(context) {
     var spaceX = 200;
     var spaceY = 400;
 
-    // var symboldStates = ["--default","--hover", "--pressed","--tab","--disabled" ]
     var states = [
         "Default, Hover, Active, Disabled",
         "default, hover, active, disabled",
@@ -40,8 +39,6 @@ var onRun = function(context) {
     // Checked
     // Unchecked
     // Disabled
-
-    //var styleStates = ["--default","--hover", "--pressed","--tab","--disabled" ]
 
     ////// Buttons
     // Default
@@ -92,9 +89,9 @@ var onRun = function(context) {
     var result;
 
     var instructionalTextForInput =
-        "Choose a naming pattern you'd like to use. The name of the selected layers will be used as starting point.\n\nThe divider '" +
-        divider +
-        "' will be added before each value.";
+        "Choose a naming pattern you'd like to use. The name of the selected layers will be used as starting point.
+    instructionalTextForInput += "\n\nThe divider '"
+    instructionalTextForInput += divider + "' will be added before each value.";
 
     ui.getInputFromUser(
         "Generate States, Types and Sizes", {
@@ -117,9 +114,6 @@ var onRun = function(context) {
 
     ////
 
-    // //var states = [" --default"," --hover"," --active"," --pressed" ]
-    // //var states = ["--Hover","--Focus","--Selected","--Activated","--Pressed","--Disabled" ]
-    //
     var elements = document.selectedLayers.layers;
 
     for (e = 0; e < elements.length; ++e) {
@@ -145,11 +139,11 @@ var onRun = function(context) {
 
             if (sizeOrType == "primary" || sizeOrType == "medium" || sizeOrType == "md" || sizeOrType == "mobile") {
                 newState.frame.x = symbol.frame.x;
-                newState.frame.y = symbol.frame.y + (symbol.frame.height + spaceY ) * s;
+                newState.frame.y = symbol.frame.y + (symbol.frame.height + spaceY) * s;
                 // changing divider for type, variants or sizes
                 divider = " - ";
             } else {
-                newState.frame.x = symbol.frame.x + (symbol.frame.width + spaceX ) * s;
+                newState.frame.x = symbol.frame.x + (symbol.frame.width + spaceX) * s;
                 newState.frame.y = symbol.frame.y;
             }
 

@@ -2,6 +2,7 @@ const sketch = require("sketch");
 const sketchversion = sketch.version.sketch;
 const Swatch = sketch.Swatch;
 const document = sketch.getSelectedDocument();
+@import "settings.js";
 @import "functions.js";
 
 var onRun = function(context) {

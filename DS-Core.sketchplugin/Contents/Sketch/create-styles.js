@@ -1,17 +1,14 @@
+var sketch = require("sketch");
+var ui = require("sketch/ui");
+var document = sketch.getSelectedDocument();
+var data = document.sketchObject.documentData();
+
 var onRun = function(context) {
-    var sketch = require("sketch");
-    var ui = require("sketch/ui");
-
-    var document = sketch.getSelectedDocument();
-
-    var data = document.sketchObject.documentData();
     var page = document.selectedPage;
     var selection = document.selectedLayers;
 
     var layerStyles = document.sharedLayerStyles;
     var textStyles = document.sharedTextStyles;
-
-    console.log(selection.layers[0].index);
 
     var margin = 0;
     var moveby = 0;

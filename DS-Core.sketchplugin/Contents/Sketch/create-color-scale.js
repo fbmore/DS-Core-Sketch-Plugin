@@ -1,37 +1,21 @@
-@import "color-functions.js"
+@import "settings.js";
+@import "color-functions.js";
+
 
 var onRun = function(context) {
     const sketch = require("sketch");
     var document = sketch.getSelectedDocument();
     var selection = document.selectedLayers;
 
-    // Detect Sketch Version to create colors or color vars
-
     // console.log("Generate color scale from selection");
 
     if (selection.layers.length > 0) {
         var layer;
 
-        var colorVariations = [
-            "900,800,700,600,500,400,300,200,100,50",
-            "800,700,600,500,400,300,200,100",
-            "900,700,500,300,100",
-            "900,700,500,300",
-            "700,500,300",
-        ];
-
-        var labels = [
-            "10 Steps",
-            "8 Steps",
-            "5 Steps",
-            "4 Steps",
-            "3 Steps",
-        ];
-
-        let padding = 8;
-
         var instructionalTextForInput =
-            "Choose the number of steps you'd like to use to create Color Scales from the Selected Layers.\n\nTip: the name of the selected layers will be used as 'base name' and the fill color as 'middle step'.";
+            "Choose the number of steps you'd like to use to create Color Scales from the Selected Layers."
+        instructionalTextForInput += "\n\n"
+        instructionalTextForInput += "Tip: the name of the selected layers will be used as 'base name' and the fill color as 'middle step'.";
 
         sketch.UI.getInputFromUser(
             "Generate Color Scales", {
@@ -46,7 +30,6 @@ var onRun = function(context) {
                 } else {
                     // sketch.UI.message(value);
                     sketch.UI.message("🌈: Yay! " + value.replace("Steps", "Color steps created! 👏 🚀"));
-
 
                     let result = colorVariations[labels.indexOf(value)];
 
@@ -69,15 +52,6 @@ var onRun = function(context) {
 
                     var colorVariationsMiddle = colorVariations[middleIndex];
                     var colorVariationsDeltaBelow = (colorVariationsMiddle - colorVariationsLast) / middleIndex;
-
-                    // console.log("----------------------------");
-                    // console.log("numColorVariations: " + numColorVariations);
-                    // console.log("colorVariationsFirst: " + colorVariationsFirst);
-                    // console.log("colorVariationsLast: " + colorVariationsLast);
-                    // console.log("colorVariationsMiddle: " + colorVariationsMiddle);
-                    // console.log("colorVariationsDeltaBelow: " + colorVariationsDeltaBelow);
-                    // console.log("middleIndex: " + middleIndex);
-                    // console.log("----------------------------");
 
                     // Generate colors from selection
                     for (c = 0; c < selection.layers.length; c++) {

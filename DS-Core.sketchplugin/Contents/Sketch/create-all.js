@@ -3,13 +3,13 @@ const sketchversion = sketch.version.sketch;
 var document = sketch.getSelectedDocument();
 const Swatch = sketch.Swatch;
 var selection = document.selectedLayers;
+@import "settings.js";
+@import "sketch-functions.js";
 @import "functions.js";
 
 var onRun = function(context) {
     @import "color-functions.js";
     var newSelection = [];
-    // Detect Sketch Version to create colors or color vars
-    var sketchversion = sketch.version.sketch;
 
     // console.log("Generate color scale from selection");
 
@@ -17,26 +17,10 @@ var onRun = function(context) {
     if (selection.layers.length > 0) {
         var layer;
 
-        var colorVariations = [
-            "900,800,700,600,500,400,300,200,100,50",
-            "800,700,600,500,400,300,200,100",
-            "900,700,500,300,100",
-            "900,700,500,300",
-            "700,500,300",
-        ];
-
-        var labels = [
-            "10 Steps",
-            "8 Steps",
-            "5 Steps",
-            "4 Steps",
-            "3 Steps",
-        ];
-
-        let padding = 8;
-
         var instructionalTextForInput =
-            "Choose the number of steps you'd like to use to create Color Scales from the Selected Layers.\n\nTip: the name of the selected layers will be used as 'base name' and the fill color as 'middle step'.";
+            "Choose the number of steps you'd like to use to create Color Scales from the Selected Layers."
+        instructionalTextForInput += "\n\n"
+        instructionalTextForInput += "Tip: the name of the selected layers will be used as 'base name' and the fill color as 'middle step'.";
 
         sketch.UI.getInputFromUser(
             "Generate Color Scales & Variables", {
@@ -115,11 +99,16 @@ var onRun = function(context) {
                 }
             }
         );
+
+        document.selectedLayers = [];
+
         // Color Variables
         for (i = 0; i < newSelection.length; i++) {
             newSelection[i].selected = true;
         }
+
         selection = document.selectedLayers;
+
         if (selection.length > 0) {
             var documentColors = sketch.getSelectedDocument().colors;
 

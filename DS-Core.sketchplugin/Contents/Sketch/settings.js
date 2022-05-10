@@ -7,6 +7,7 @@
 // Margins
 var margin = 24;
 var moveby = 0;
+var padding = 8;
 
 // Typography
 // Scale Variations
@@ -37,7 +38,7 @@ var typographyStylesArray = [
     ["Headline 5", "H5", false, 1],
     ["Paragraph", "Paragraph", true, 1],
     ["Small", "Small", false, 0.75],
-    ["Label", "Label", true, 1],
+    ["Button", "Button", true, 1],
 ];
 // 4. Styles alignments
 var typographyStylesArrayAlignments = ["left", "center", "right"];
@@ -47,3 +48,17 @@ var typographyThemesArray = [
     ["Dark", "Default"],
     ["Light", "Inverted"],
 ];
+
+// Colors
+// Scale options
+// 1. Available scales multipliers
+var colorVariations = [
+    "900,800,700,600,500,400,300,200,100,50",
+    "800,700,600,500,400,300,200,100",
+    "900,700,500,300,100",
+    "900,700,500,300",
+    "700,500,300",
+];
+
+// 2. UI Labels for selection
+var labels = ["10 Steps", "8 Steps", "5 Steps", "4 Steps", "3 Steps"];
