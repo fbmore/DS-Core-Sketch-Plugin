@@ -17,5 +17,5 @@
 
 Created by:
 
-- Francesco Bertocci (@fbmore)
-- Matteo Gratton (@icona79)
+- [Francesco Bertocci (@fbmore)](https://github.com/fbmore/)
+- [Matteo Gratton (@icona79)](https://github.com/icona79)
