@@ -1,5 +1,5 @@
 @import "settings.js";
-@import "color-functions.js";
+@import "./functions/color-functions.js";
 
 
 var onRun = function(context) {
