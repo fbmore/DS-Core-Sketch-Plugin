@@ -1,4 +1,4 @@
-![](/Images/DS-Core-Sketch-Plugin.png)
+![](/Images/DS-Core-Social.png)
 # DS Core
 
 ## [Download plugin here](https://github.com/fbmore/DS-Core-Sketch-Plugin/raw/main/DS-Core.sketchplugin.zip)
